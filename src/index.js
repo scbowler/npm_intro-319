@@ -1,7 +1,7 @@
 import sQuery, { addToDom, makeElement } from './helpers';
 import add from './add';
 
-addToDom('Who needs jQuery?');
+addToDom('Who needs jQuery? Not meeeeee');
 
 addToDom(`5 + 8 = ${add(5, 8)}`);
 
