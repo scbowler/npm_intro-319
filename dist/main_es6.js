@@ -96,26 +96,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["addToDom"])('Who needs jQuery? Not meeeeee');
-Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["addToDom"])("5 + 8 = ".concat(Object(_add__WEBPACK_IMPORTED_MODULE_1__["default"])(5, 8)));
+
+Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["addToDom"])(`5 + 8 = ${Object(_add__WEBPACK_IMPORTED_MODULE_1__["default"])(5, 8)}`);
+
 Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["makeElement"])('p', 'This is a paragraph');
+
 _helpers__WEBPACK_IMPORTED_MODULE_0__["default"].makeElement('h2', 'This is sQuery');
 
-function pauseValue(delay, value) {
-  return function (callback) {
-    setTimeout(function () {
-      return callback(value);
-    }, delay);
-  };
+function pauseValue(delay, value){
+    return function(callback){
+        setTimeout(() => callback(value), delay);
+    }
 }
 
-var promise = new _promise__WEBPACK_IMPORTED_MODULE_2__["default"](pauseValue(5000, 'It is done'));
-promise.then(function (value) {
-  console.log(value);
-  return value;
-}).then(console.log); // var promise = new Promise(function(resolve, reject){
+var promise = new _promise__WEBPACK_IMPORTED_MODULE_2__["default"](
+    pauseValue(5000, 'It is done')
+);
+
+promise
+.then(value => {
+    console.log(value);
+    return value;
+})
+.then(console.log);
+
+
+
+
+// var promise = new Promise(function(resolve, reject){
 //     resolve('no really, this is done');
 // });
+
 // promise
 // .then(function(value){
 //     console.log('this is the result of the promise: ', value);
@@ -136,6 +149,7 @@ promise.then(function (value) {
 //             reject(new Error(monkey));
 //         }, 5000);
 //     });
+
 //     console.log('this is the 3rd result of the promise: ', monkey);
 //     return newPromise;
 // })
@@ -143,11 +157,14 @@ promise.then(function (value) {
 //     console.log('there was another error, yo: ', value);
 //     return value;
 // });
+
 // function addGreetingToOutput(greeting, outputFunc1, outputFunc2){
 //     outputFunc1(greeting);
 //     outputFunc2(greeting);
 // }
+
 // addGreetingToOutput('Hiya', addToDom, addToDom);
+
 
 /***/ }),
 /* 1 */
@@ -157,22 +174,30 @@ promise.then(function (value) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addToDom", function() { return addToDom; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeElement", function() { return makeElement; });
-function addToDom(message) {
-  var root = document.getElementById('root');
-  var h1 = document.createElement('h1');
-  h1.innerText = message;
-  root.append(h1);
+function addToDom(message){
+    const root = document.getElementById('root');
+    const h1 = document.createElement('h1');
+
+    h1.innerText = message;
+
+    root.append(h1);
 }
-function makeElement(type, text) {
-  var root = document.getElementById('root');
-  var ele = document.createElement(type);
-  ele.innerText = text;
-  root.append(ele);
+
+function makeElement(type, text){
+    const root = document.getElementById('root');
+
+    const ele = document.createElement(type);
+
+    ele.innerText = text;
+
+    root.append(ele);
 }
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  addToDom: addToDom,
-  makeElement: makeElement
+    addToDom: addToDom,
+    makeElement: makeElement
 });
+
 
 /***/ }),
 /* 2 */
@@ -180,11 +205,12 @@ function makeElement(type, text) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function add(x, y) {
-  return x + y;
+function add(x, y){
+    return  x + y;
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (add);
+
 
 /***/ }),
 /* 3 */
@@ -193,44 +219,29 @@ function add(x, y) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ItsAPromise; });
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+class ItsAPromise {
+    constructor(runner){
+        this.callbacks = [];
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+        this._resolve = this._resolve.bind(this);
 
-var ItsAPromise =
-/*#__PURE__*/
-function () {
-  function ItsAPromise(runner) {
-    _classCallCheck(this, ItsAPromise);
-
-    this.callbacks = [];
-    this._resolve = this._resolve.bind(this);
-    runner(this._resolve);
-  }
-
-  _createClass(ItsAPromise, [{
-    key: "_resolve",
-    value: function _resolve(value) {
-      if (this.callbacks.length > 0) {
-        var callback = this.callbacks.shift();
-        var newValue = callback(value);
-
-        this._resolve(newValue);
-      }
+        runner(this._resolve);
     }
-  }, {
-    key: "then",
-    value: function then(callback) {
-      this.callbacks.push(callback);
-      return this;
+
+    _resolve(value){
+        if (this.callbacks.length > 0){
+            const callback = this.callbacks.shift();
+            var newValue = callback(value);
+            this._resolve(newValue);
+        }
     }
-  }]);
 
-  return ItsAPromise;
-}();
-
+    then(callback){
+        this.callbacks.push(callback);
+        return this;
+    }
+}
 
 
 /***/ })
